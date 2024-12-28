@@ -5,7 +5,7 @@ location = pathlib.Path(__file__).parent
 README = (location / "README.md").read_text()
 
 setup(
-    name="async-ip-rotator",
+    name="async-aws-ip-rotator",
     version="1.0.0",
     description="Async IP rotation using AWS API Gateway with httpx support",
     long_description=README,
