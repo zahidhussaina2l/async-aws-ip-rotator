@@ -18,7 +18,7 @@ This package is on pypi so you can install via any of the following:
 ```python
 import asyncio
 import httpx
-from async_aws_ip_rotator import ApiGateway
+from async_ip_rotator import ApiGateway
 
 async def main():
     # Create and use gateway with async context manager
