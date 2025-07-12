@@ -30,7 +30,17 @@ ALL_REGIONS = EXTRA_REGIONS + [
 # Inherits from httpx.AsyncBaseTransport so that we can edit each request before sending
 class ApiGateway(httpx.AsyncBaseTransport):
 
-    def __init__(self, site, regions=DEFAULT_REGIONS, access_key_id=None, access_key_secret=None, verbose=True, **kwargs):
+    def __init__(
+        self,
+        site: str,
+        regions: list[str] = DEFAULT_REGIONS,
+        access_key_id: str | None = None,
+        access_key_secret: str | None = None,
+        verbose: bool = True,
+        *,
+        use_proxy_stage: bool = True,
+        **kwargs,
+    ) -> None:
         super().__init__(**kwargs)
         # Set simple params from constructor
         if site.endswith("/"):
@@ -42,7 +52,8 @@ class ApiGateway(httpx.AsyncBaseTransport):
         self.api_name = site + " - IP Rotate API"
         self.regions = regions
         self.verbose = verbose
-        self.endpoints = []
+        self.endpoints: list[str] = []
+        self.use_proxy_stage: bool = use_proxy_stage
         self._client = httpx.AsyncClient()
 
     # Enter and exit blocks to allow "with" clause
@@ -69,8 +80,9 @@ class ApiGateway(httpx.AsyncBaseTransport):
         if path.startswith("/"):
             path = path[1:]
             
-        # Create new URL with our endpoint
-        new_url = f"https://{endpoint}/ProxyStage/{path}"
+        # Build base URL with or without the /ProxyStage segment depending on flag
+        stage_segment = "/ProxyStage" if self.use_proxy_stage else ""
+        new_url = f"https://{endpoint}{stage_segment}/{path}" if path else f"https://{endpoint}{stage_segment}"
         if request.url.query:
             new_url += f"?{request.url.query.decode() if isinstance(request.url.query, bytes) else request.url.query}"
         
