@@ -10,8 +10,8 @@ AWS' ApiGateway sends its requests from any available IP - and since the AWS inf
 ## Installation
 
 This package is on pypi so you can install via any of the following:
-* `pip install async-ip-rotator`
-* `python -m pip install async-ip-rotator`
+* `pip install async-aws-ip-rotator`
+* `python -m pip install async-aws-ip-rotator`
 
 ## Quick Start
 
