@@ -6,7 +6,7 @@ README = (location / "README.md").read_text()
 
 setup(
     name="async-aws-ip-rotator",
-    version="1.0.1",
+    version="1.0.2",
     description="Async IP rotation using AWS API Gateway with httpx support",
     long_description=README,
     long_description_content_type="text/markdown",

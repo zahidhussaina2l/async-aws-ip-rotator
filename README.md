@@ -22,7 +22,8 @@ from async_ip_rotator import ApiGateway
 
 async def main():
     # Create and use gateway with async context manager
-    async with ApiGateway("https://site.com") as gateway:
+    # Disable the default /ProxyStage path if needed to avoid changing signature for certain private endpoints
+    async with ApiGateway("https://site.com", use_proxy_stage=False) as gateway:
         # Create async client with gateway
         async with httpx.AsyncClient(transport=gateway) as client:
             # Send request (IP will be randomized)
@@ -59,6 +60,7 @@ The ApiGateway class can be created with the following optional parameters:
 | access_key_id | AWS Access Key ID (will override env variables) | False | *Relies on env variables* |
 | access_key_secret | AWS Access Key Secret (will override env variables) | False | *Relies on env variables* |
 | verbose | Include status and error messages | False | True |
+| use_proxy_stage | Include '/ProxyStage' prefix in gateway URL (set False when not required) | False | True |
 
 ```python
 from async_ip_rotator import ApiGateway, EXTRA_REGIONS, ALL_REGIONS
